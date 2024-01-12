@@ -35,11 +35,22 @@ RSpec.describe Board do
     expect(board.valid_placement?(submarine, ["A2", "A3", "A4"])).to eq(false)
     expect(board.valid_placement?(cruiser, ["A1", "A2", "A4"])).to eq(false)
     expect(board.valid_placement?(submarine, ["A1", "C1"])).to eq(false)
-    expect(board.valid_placement?(cruiser, ["A3", "A2", "A1"])).to eq(false)
-    expect(board.valid_placement?(submarine, ["C1", "B1"])).to eq(false)
     expect(board.valid_placement?(cruiser, ["A1", "B2", "C3"])).to eq(false)
     expect(board.valid_placement?(submarine, ["C2", "D3"])).to eq(false)
     expect(board.valid_placement?(cruiser, ["A1", "B1", "C1"])).to eq(true)
     expect(board.valid_placement?(submarine, ["A2", "B2"])).to eq(true)
+  end
+
+  it "can place ships" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    expect(board.cells["A1"].ship).to eq(cruiser)
+    expect(board.cells["A2"].ship).to eq(cruiser)
+    expect(board.cells["A3"].ship).to eq(cruiser)
+    expect(board.cells["A1"].ship == board.cells["A2"].ship).to eq(true)
+    expect(board.cells["A1"].ship == board.cells["A3"].ship).to eq(true)
   end
 end

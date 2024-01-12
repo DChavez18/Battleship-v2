@@ -1,4 +1,5 @@
 require './lib/cell'
+require './lib/ship'
 
 class Board
   attr_reader :cells
@@ -29,13 +30,38 @@ class Board
   end
 
   def valid_placement?(ship, coordinates)
-    return false if ship.length != coordinates.length
-
+    return false if invalid_length?(ship, coordinates)
+  
     sorted_coordinates = coordinates.sort
+    consecutive_coordinates?(sorted_coordinates) && !diagonal_placement?(sorted_coordinates)
+  end
 
-    consecutive_horizontal = sorted_coordinates.map { |coord| coord[0] }.uniq.size == 1
-    consecutive_vertical = sorted_coordinates.map { |coord| coord[1] }.uniq.size == 1
+  def invalid_length?(ship, coordinates)
+    ship.length != coordinates.length
+  end
 
-    return consecutive_horizontal || consecutive_vertical
+  def consecutive_coordinates?(coordinates)
+    letters = coordinates.map { |coordinate| coordinate[0].ord }
+    numbers = coordinates.map { |coordinate| coordinate[1..-1].to_i }
+    consecutive_letters = letters.each_cons(2).all? { |a, i| i == a + 1 }
+    consecutive_numbers = numbers.each_cons(2).all? { |a, i| i == a + 1 }
+    consecutive_letters || consecutive_numbers
+  end
+
+  def diagonal_placement?(coordinates)
+    letters = coordinates.map { |coordinate| coordinate[0].ord }
+    numbers = coordinates.map { |coordinate| coordinate[1..-1].to_i }
+
+    letters.uniq.length > 1 && numbers.uniq.length > 1
+  end
+
+  private
+
+  def consecutive_letters?(letters)
+    letters.each_cons(2).all? { |a, b| b.ord == a.ord + 1 }
+  end
+
+  def consecutive_numbers?(numbers)
+    numbers.each_cons(2).all? { |a, b| b == a + 1 }
   end
 end
