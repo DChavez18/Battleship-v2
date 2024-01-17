@@ -63,4 +63,45 @@ RSpec.describe Board do
                                "C . . . . \n" +
                                "D . . . . \n")
   end
+
+  it "can render a board with ships" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+
+    expect(board.render(true)).to eq("  1 2 3 4 \n" +
+                                     "A S S S . \n" +
+                                     "B . . . . \n" +
+                                     "C . . . . \n" +
+                                     "D . . . . \n")
+  end
+
+  it "can render a board with hits and misses" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.cells["A1"].fire_upon
+    board.cells["B4"].fire_upon
+
+    expect(board.render).to eq("  1 2 3 4 \n" +
+                               "A H . . . \n" +
+                               "B . . . M \n" +
+                               "C . . . . \n" +
+                               "D . . . . \n")
+  end
+
+  it "can render a board with a sunk ship" do
+    board = Board.new
+    cruiser = Ship.new("Cruiser", 3)
+    board.place(cruiser, ["A1", "A2", "A3"])
+    board.cells["A1"].fire_upon
+    board.cells["A2"].fire_upon
+    board.cells["A3"].fire_upon
+
+    expect(board.render).to eq("  1 2 3 4 \n" +
+                               "A X X X . \n" +
+                               "B . . . . \n" +
+                               "C . . . . \n" +
+                               "D . . . . \n")
+  end
 end
