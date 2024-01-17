@@ -55,6 +55,20 @@ class Board
     letters.uniq.length > 1 && numbers.uniq.length > 1
   end
 
+  def place(ship, coordinates)
+    coordinates.each do |coordinate|
+      @cells[coordinate].place_ship(ship)
+    end
+  end
+
+  def render(show_ship = false)
+    "  1 2 3 4 \n" +
+    "A #{render_row(["A1", "A2", "A3", "A4"], show_ship)} \n" +
+    "B #{render_row(["B1", "B2", "B3", "B4"], show_ship)} \n" +
+    "C #{render_row(["C1", "C2", "C3", "C4"], show_ship)} \n" +
+    "D #{render_row(["D1", "D2", "D3", "D4"], show_ship)} \n"
+  end
+
   private
 
   def consecutive_letters?(letters)
@@ -63,5 +77,11 @@ class Board
 
   def consecutive_numbers?(numbers)
     numbers.each_cons(2).all? { |a, b| b == a + 1 }
+  end
+
+  def render_row(coordinates, show_ship)
+    coordinates.map do |coordinate|
+      @cells[coordinate].render(show_ship)
+    end.join(" ")
   end
 end

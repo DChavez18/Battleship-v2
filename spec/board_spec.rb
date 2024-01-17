@@ -53,4 +53,14 @@ RSpec.describe Board do
     expect(board.cells["A1"].ship == board.cells["A2"].ship).to eq(true)
     expect(board.cells["A1"].ship == board.cells["A3"].ship).to eq(true)
   end
+
+  it "can render a board" do
+    board = Board.new
+
+    expect(board.render).to eq("  1 2 3 4 \n" +
+                               "A . . . . \n" +
+                               "B . . . . \n" +
+                               "C . . . . \n" +
+                               "D . . . . \n")
+  end
 end
