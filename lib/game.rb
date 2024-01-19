@@ -7,6 +7,21 @@ class Game
     @player_ships = []
   end
 
+  def start
+    puts "Welcome to BATTLESHIP"
+    puts "Enter p to play. Enter q to quit."
+    print "> "
+    input = gets.chomp
+    if input == "p"
+      setup
+    elsif input == "q"
+      exit
+    else
+      puts "Invalid input."
+      start
+    end
+  end
+
   def place_computer_ships
     @ships << Ship.new("Cruiser", 3)
     @ships << Ship.new("Submarine", 2)
