@@ -4,4 +4,4 @@ require "./lib/cell"
 require "./lib/ship"
 
 game = Game.new
-game.start
+game.main_menu

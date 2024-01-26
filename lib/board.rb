@@ -33,7 +33,13 @@ class Board
     return false if invalid_length?(ship, coordinates)
   
     sorted_coordinates = coordinates.sort
-    consecutive_coordinates?(sorted_coordinates) && !diagonal_placement?(sorted_coordinates)
+    consecutive_coordinates?(sorted_coordinates) && 
+    !diagonal_placement?(sorted_coordinates) &&
+    !overlapping_ships?(sorted_coordinates)
+  end
+
+  def overlapping_ships?(coordinates)
+    coordinates.any? { |coordinate| @cells[coordinate].ship != nil }
   end
 
   def invalid_length?(ship, coordinates)
