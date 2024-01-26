@@ -1,4 +1,9 @@
+require './lib/display_module.rb'
+
 class Game
+
+  include Display
+  
   def initialize
     @player_cruiser = Ship.new("Cruiser", 3)
     @player_submarine = Ship.new("Submarine", 2)
