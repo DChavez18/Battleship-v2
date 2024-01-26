@@ -4,57 +4,51 @@ require "./lib/ship"
 require "./lib/game"
 
 RSpec.describe Game do
+  before :each do
+    @game = Game.new
+    @player_board = Board.new
+    @computer_board = Board.new
+    @player_cruiser = Ship.new("Cruiser", 3)
+    @player_submarine = Ship.new("Submarine", 2)
+    @computer_cruiser = Ship.new("Cruiser", 3)
+    @computer_submarine = Ship.new("Submarine", 2)
+  end
+
   it "exists" do
     game = Game.new
 
     expect(game).to be_a(Game)
   end
 
-  it "has a player board" do
+  it "has ships" do
     game = Game.new
 
-    expect(game.player_board).to be_a(Board)
+    expect(@player_cruiser).to be_a(Ship)
+    expect(@player_submarine).to be_a(Ship)
+    expect(@computer_cruiser).to be_a(Ship)
+    expect(@computer_submarine).to be_a(Ship)
   end
 
-  it "has a computer board" do
+  it "has boards" do
     game = Game.new
 
-    expect(game.computer_board).to be_a(Board)
+    expect(@player_board).to be_a(Board)
+    expect(@computer_board).to be_a(Board)
   end
 
-  it "has a player cruiser" do
+  it "sinks ships" do
     game = Game.new
 
-    expect(game.player_cruiser).to be_a(Ship)
-    expect(game.player_cruiser.name).to eq("Cruiser")
-    expect(game.player_cruiser.length).to eq(3)
-    expect(game.player_cruiser.health).to eq(3)
-  end
+    expect(@player_cruiser.sunk?).to eq(false)
+    expect(@player_submarine.sunk?).to eq(false)
 
-  it "has a player submarine" do
-    game = Game.new
+    @player_cruiser.hit
+    @player_cruiser.hit
+    @player_cruiser.hit
+    @player_submarine.hit
+    @player_submarine.hit
 
-    expect(game.player_submarine).to be_a(Ship)
-    expect(game.player_submarine.name).to eq("Submarine")
-    expect(game.player_submarine.length).to eq(2)
-    expect(game.player_submarine.health).to eq(2)
-  end
-
-  it "has a computer cruiser" do
-    game = Game.new
-
-    expect(game.computer_cruiser).to be_a(Ship)
-    expect(game.computer_cruiser.name).to eq("Cruiser")
-    expect(game.computer_cruiser.length).to eq(3)
-    expect(game.computer_cruiser.health).to eq(3)
-  end
-
-  it "has a computer submarine" do
-    game = Game.new
-
-    expect(game.computer_submarine).to be_a(Ship)
-    expect(game.computer_submarine.name).to eq("Submarine")
-    expect(game.computer_submarine.length).to eq(2)
-    expect(game.computer_submarine.health).to eq(2)
+    expect(@player_cruiser.sunk?).to eq(true)
+    expect(@player_submarine.sunk?).to eq(true)
   end
 end
