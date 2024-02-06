@@ -1,4 +1,7 @@
 require './lib/display_module.rb'
+require 'pastel'
+require 'tty-font'
+require 'tty-box'
 
 class Game
 
@@ -14,6 +17,7 @@ class Game
   end
   
   def main_menu
+    menu_display
     puts "Welcome Mariner! To BATTLESHIP. Ready up.
     Enter p to head into the sea-fight. Enter q to head back to the bunks."
   
@@ -113,7 +117,7 @@ class Game
     else
         puts "The computer's shot on #{cpu_shot_coordinate} missed your ship!"
     end
-    display_boards
+    display_boards(@player_board, @computer_board)
     cpu_wins
     turn
   end
