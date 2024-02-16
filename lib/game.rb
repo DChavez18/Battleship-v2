@@ -136,10 +136,10 @@ class Game
     end
   end
 
-  def display_boards
-    puts "=============COMPUTER BOARD============="
-    puts @computer_board.render
-    puts "==============PLAYER BOARD=============="
-    puts @player_board.render(true)
+  def display_boards(player_board, computer_board)
+    puts pastel.cyan('============= COMPUTER BOARD =============')
+    puts pastel.blue(computer_board.render)
+    puts pastel.cyan('============== PLAYER BOARD ==============')
+    puts pastel.green(player_board.render(true))
   end
 end
